@@ -1,0 +1,34 @@
+
+
+	CMatlabSolverBase solve;  // 调用matlab的对象
+
+	solve.StartEngine();  // 初始化：打开Matlab引擎
+
+	solve.PutVectorIn("row", graph_Laplacian_row);  // 传递参数
+	solve.PutVectorIn("column", graph_Laplacian_column);
+	solve.PutVectorIn("data", graph_Laplacian_data);
+	engEvalString(solve.GetEngine(), "S = sparse(row, column, data);");
+
+	.... // 其他设置
+
+
+	engEvalString(solve.GetEngine(), "[D, Lamda] = eigs(S, k);");  // 调用Matlab的函数eigs()
+
+	.... // 其他语句	
+	
+	solve.PutVectorIn("X", X);
+	solve.PutVectorIn("Y", Y);
+	solve.PutVectorIn("Z", Z);
+
+	engEvalString(solve.GetEngine(), "X = D * D' * X;");
+	engEvalString(solve.GetEngine(), "Y = D * D' * Y;");
+	engEvalString(solve.GetEngine(), "Z = D * D' * Z;");  // 调用matlab的矩阵计算
+
+	solve.GetVectorOut("X", X);  
+	solve.GetVectorOut("Y", Y);
+	solve.GetVectorOut("Z", Z);  // 取出从matlab计算出来的结果
+
+
+	...
+
+	solve.EndEngine(); // 当不再调用matlab时，关闭Matlab引擎

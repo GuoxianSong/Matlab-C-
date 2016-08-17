@@ -1,0 +1,13 @@
+		CPseudoColorRGB  Psdc;  // 定义计算colormap对象
+
+		Psdc.SetPCRamp(0.0, 1.0);   
+		Psdc.SetPCType(PCT_JET);    // 变换类型：红绿蓝
+		Psdc.SetPCValueRange(0.0,1.0); // 定义范围
+
+		// 示范：如何计算值value所对应的rgb颜色
+		double color[3];
+		double value;
+		Psdc.GetPC(color,value);  // 返回的color值范围为[0,255]
+
+
+
